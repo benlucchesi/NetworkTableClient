@@ -2,6 +2,7 @@
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.networktables.PubSubOption;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.networktables.StringTopic;
@@ -10,7 +11,6 @@ import edu.wpi.first.util.CombinedRuntimeLoader;
 import java.io.IOException;
 
 import org.opencv.core.Core;
-import org.opencv.core.Mat;
 
 import edu.wpi.first.cscore.CameraServerJNI;
 import edu.wpi.first.cscore.OpenCvLoader;
@@ -30,6 +30,7 @@ public class Program {
         CombinedRuntimeLoader.loadLibraries(Program.class, "wpiutiljni", "wpimathjni", "ntcorejni", Core.NATIVE_LIBRARY_NAME, "cscorejni");
 
 
+        System.out.println("Your program has started...")
         // get the default instance of NetworkTables
         NetworkTableInstance networkTable = NetworkTableInstance.getDefault();
 
@@ -46,7 +47,7 @@ public class Program {
         // get a table and publish/subscribe to topics
         NetworkTable table = networkTable.getTable("datatable");
         StringTopic myStringTopic = table.getStringTopic("myStringTopic");
-        StringPublisher myStringPublisher = myStringTopic.publish();
+        StringPublisher myStringPublisher = myStringTopic.publish(PubSubOption.keepDuplicates(true), PubSubOption.sendAll(true));
 
         // send a value to the robot
         myStringPublisher.set("Hello, robot");
@@ -56,5 +57,7 @@ public class Program {
         StringTopic limelight = networkTable.getStringTopic("/SmartDashboard/limelight_Interface");
         StringSubscriber limeLightSubscriber = limelight.subscribe("not set");
         System.out.println(limeLightSubscriber.get());
+
+        System.out.println("your program has ended.");
     }
 }
