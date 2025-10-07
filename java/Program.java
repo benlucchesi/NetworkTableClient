@@ -27,26 +27,34 @@ public class Program {
         EigenJNI.Helper.setExtractOnStaticLoad(false);
         CameraServerJNI.Helper.setExtractOnStaticLoad(false);
         OpenCvLoader.Helper.setExtractOnStaticLoad(false);
-
         CombinedRuntimeLoader.loadLibraries(Program.class, "wpiutiljni", "wpimathjni", "ntcorejni", Core.NATIVE_LIBRARY_NAME, "cscorejni");
 
+
+        // get the default instance of NetworkTables
         NetworkTableInstance networkTable = NetworkTableInstance.getDefault();
 
+        // start the client with a team number
         networkTable.startClient4("simple client");
         networkTable.setServerTeam(6352);
+        
+        // connect to IP address
         // networkTable.setServer("10.63.52.129");
+        // OR
+        // get IP address from driver station
         networkTable.startDSClient();
 
+        // get a table and publish/subscribe to topics
         NetworkTable table = networkTable.getTable("datatable");
         StringTopic myStringTopic = table.getStringTopic("myStringTopic");
         StringPublisher myStringPublisher = myStringTopic.publish();
 
+        // send a value to the robot
         myStringPublisher.set("Hello, robot");
         System.out.println("sent value...");
 
+        // subscribe to a value from the robot - get the limelight's IP address address
         StringTopic limelight = networkTable.getStringTopic("/SmartDashboard/limelight_Interface");
         StringSubscriber limeLightSubscriber = limelight.subscribe("not set");
-
         System.out.println(limeLightSubscriber.get());
     }
 }

@@ -1,1 +1,1 @@
-Standalone WPILib App Samples
+NetworkTable Client Demo
