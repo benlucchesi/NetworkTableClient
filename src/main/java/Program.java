@@ -30,7 +30,7 @@ public class Program {
         CombinedRuntimeLoader.loadLibraries(Program.class, "wpiutiljni", "wpimathjni", "ntcorejni", Core.NATIVE_LIBRARY_NAME, "cscorejni");
 
 
-        System.out.println("Your program has started...")
+        System.out.println("Your program has started...");
         // get the default instance of NetworkTables
         NetworkTableInstance networkTable = NetworkTableInstance.getDefault();
 

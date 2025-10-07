@@ -45,10 +45,11 @@ dependencies {
 }
 
 shadowJar {
-    archiveBaseName = "TestApplication"
+    archiveBaseName = "NetworkTablesClient"
     archiveVersion = ""
     exclude("module-info.class")
     archiveClassifier.set(wpilibTools.currentPlatform.platformName)
+    mainClassName = 'Program'
 }
 
 wrapper {
